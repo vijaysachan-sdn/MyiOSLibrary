@@ -1,5 +1,5 @@
 //
-//  FWFirestoreManager.swift
+//  FirestoreManager.swift
 //  MAPS
 //
 //  Created by Vijay Sachan on 4/23/25.
@@ -7,17 +7,21 @@
 import Foundation
 import FirebaseFirestore
 
-public class FWFirestoreManager{
+public class FirestoreManager{
     let db:Firestore
     private var activeListeners = NSHashTable<AnyObject>.weakObjects()
-    init () {
-        // Enable offline data persistence
-        let settings = FirestoreSettings()
-        let persistentCacheSettings=PersistentCacheSettings()
-        settings.cacheSettings = persistentCacheSettings
-        db = Firestore.firestore()
-        db.settings = settings
-    }
+    init(cacheMode: FirestoreCacheMode = .persistent()) {
+            let settings = FirestoreSettings()
+
+            switch cacheMode {
+            case .persistent(let sizeInBytes):
+                settings.cacheSettings = PersistentCacheSettings(sizeBytes: NSNumber(value: sizeInBytes))
+            case .inMemory:
+                settings.cacheSettings = MemoryCacheSettings()
+            }
+            db = Firestore.firestore()
+            db.settings = settings
+        }
     public func listenToCollection<T: FireStoreSnapshotListener>(listener:T){
         let prefiX="Path : \(listener.path)"
         let registration = db.collection(listener.path)

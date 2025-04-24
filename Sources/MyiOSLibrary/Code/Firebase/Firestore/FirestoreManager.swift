@@ -21,54 +21,59 @@ public actor FirestoreManager{
         db = Firestore.firestore()
         db.settings = settings
     }
-    public func listenToCollection<T: FireStoreSnapshotListener>(listener:T){
+    public func listenToCollection<T: FireStoreCollectionSnapshotListener>(listener:T,limit:Int){
         let prefiX="Path : \(listener.path)"
-        let registration = db.collection(listener.path)
+        let registration = db.collection(listener.path).limit(to: limit)
             .addSnapshotListener { [weak self] snapshot, error in
                 if let error=error{
                     self?.mLog(msg:"\(prefiX) Error : \(error.localizedDescription)")
-                    listener.onUpdate(data: .failure(error))
+                    listener.onUpdate(data: .failure(error), snapshots: nil)
                     return
                 }
                 guard let documents = snapshot?.documents else {
-                    self?.mLog(msg:"\(prefiX) No documents found")
-                    listener.onUpdate(data: .success([]))
+                    self?.mLog(msg: "\(prefiX) No documents found")
+                    listener.onUpdate(data: .success([]), snapshots: [])
                     return
                 }
-                let arr=documents.compactMap { doc -> T.Model? in
-                    if let model=try? doc.data(as: T.Model.self){
-                        return model
-                    }
-                    self?.mLog(msg:"\(prefiX) Unable to decode document")
-                    return nil
-                }
-                listener.onUpdate(data: .success(arr))
-                self?.mLog(msg:"\(prefiX) Total docs: \(arr.count)")
+                var decoded: [T.Model] = []
+                            var rawSnapshots: [QueryDocumentSnapshot] = []
+                            
+                            for doc in documents {
+                                do {
+                                    let model = try doc.data(as: T.Model.self)
+                                    decoded.append(model)
+                                    rawSnapshots.append(doc)
+                                } catch {
+                                    self?.mLog(msg: "\(prefiX) Skipping invalid document: \(doc.documentID) - \(error.localizedDescription)")
+                                }
+                            }
+                            listener.onUpdate(data: .success(decoded), snapshots: rawSnapshots)
+                self?.mLog(msg: "\(prefiX) Total received docs = \(documents.count)  : Total valid docs: \(decoded.count)")
             }
         storeRegistration(registration, for: listener)
     }
-    public func listenToDocument<T: FireStoreSnapshotListener>(listener: T) {
+    public func listenToDocument<T: FireStoreDocumentSnapshotListener>(listener: T) {
         let path = listener.path
         let prefiX = "Path: \(path)"
         let registration = db.document(path).addSnapshotListener {[weak self] snapshot, error in
             if let error = error {
                 self?.mLog(msg:"\(prefiX) Error: \(error.localizedDescription)")
-                listener.onUpdate(data: .failure(error))
+                listener.onUpdate(data: .failure(error), snapshot: snapshot)
                 return
             }
             guard let document = snapshot else{
                 self?.mLog(msg:"\(prefiX) Document does not exist")
-                listener.onUpdate(data: .success(nil)) // Single document returns optional
+                listener.onUpdate(data: .success(nil), snapshot: nil)
                 return
             }
             do {
-                let model = try document.data(as: T.Model.self)
-                self?.mLog(msg:"\(prefiX) Successfully decoded document")
-                listener.onUpdate(data: .success([model]))  // Wrap in array for consistency
-            } catch {
-                self?.mLog(msg:"\(prefiX) Decoding error: \(error.localizedDescription)")
-                listener.onUpdate(data: .failure(error))
-            }
+                        let model = try document.data(as: T.Model.self)
+                        self?.mLog(msg: "\(prefiX) Successfully decoded document")
+                        listener.onUpdate(data: .success([model]), snapshot: document)
+                    } catch {
+                        self?.mLog(msg: "\(prefiX) Decoding error: \(error.localizedDescription)")
+                        listener.onUpdate(data: .failure(error), snapshot: document)
+                    }
         }
         storeRegistration(registration, for: listener)
     }

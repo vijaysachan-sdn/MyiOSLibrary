@@ -17,7 +17,7 @@ public actor FWFirebaseManager{
         self.cacheMode = cacheMode
     }
 }
-public enum FirestoreCacheMode {
+public enum FirestoreCacheMode:@unchecked Sendable{
     case persistent(sizeInBytes: Int64 = 100 * 1024 * 1024) // default 100 MB
     case inMemory
 }

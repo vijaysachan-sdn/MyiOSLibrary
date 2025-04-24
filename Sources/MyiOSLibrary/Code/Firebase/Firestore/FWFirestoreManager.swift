@@ -1,5 +1,5 @@
 //
-//  FirestoreManager.swift
+//  FWFirestoreManager.swift
 //  MAPS
 //
 //  Created by Vijay Sachan on 4/23/25.
@@ -7,11 +7,16 @@
 import Foundation
 import FirebaseFirestore
 
-public class FirestoreManager{
+public class FWFirestoreManager{
     let db:Firestore
     private var activeListeners = NSHashTable<AnyObject>.weakObjects()
-     init () {
-        db=Firestore.firestore()
+    init () {
+        // Enable offline data persistence
+        let settings = FirestoreSettings()
+        let persistentCacheSettings=PersistentCacheSettings()
+        settings.cacheSettings = persistentCacheSettings
+        db = Firestore.firestore()
+        db.settings = settings
     }
     public func listenToCollection<T: FireStoreSnapshotListener>(listener:T){
         let prefiX="Path : \(listener.path)"
@@ -62,7 +67,6 @@ public class FirestoreManager{
                 listener.onUpdate(data: .failure(error))
             }
         }
-        
         storeRegistration(registration, for: listener)
     }
     private func storeRegistration<T: FireStoreSnapshotListener>(
@@ -80,12 +84,11 @@ public class FirestoreManager{
         mLog(msg:"Total active listeners: \(activeListeners.count)")
     }
     private func mLog(_ funcName:String=#function,msg:String){
-//        AH.mLog(tag: String(describing: type(of: self)), subTag: funcName, msg: msg)
+        //        AH.mLog(tag: String(describing: type(of: self)), subTag: funcName, msg: msg)
         print("[\(String(describing: type(of: self)))] [\(funcName)]: \(msg)")
     }
-    
     public struct TestUser: Identifiable, Codable {
-         @DocumentID public var id: String? // Provided by FirebaseFirestoreSwift
+        @DocumentID public var id: String? // Provided by FirebaseFirestoreSwift
         public var name: String
     }
 }

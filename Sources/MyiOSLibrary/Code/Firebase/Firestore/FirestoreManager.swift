@@ -7,21 +7,20 @@
 import Foundation
 import FirebaseFirestore
 
-public class FirestoreManager{
+public actor FirestoreManager{
     let db:Firestore
     private var activeListeners = NSHashTable<AnyObject>.weakObjects()
     init(cacheMode: FirestoreCacheMode = .persistent()) {
-            let settings = FirestoreSettings()
-
-            switch cacheMode {
-            case .persistent(let sizeInBytes):
-                settings.cacheSettings = PersistentCacheSettings(sizeBytes: NSNumber(value: sizeInBytes))
-            case .inMemory:
-                settings.cacheSettings = MemoryCacheSettings()
-            }
-            db = Firestore.firestore()
-            db.settings = settings
+        let settings = FirestoreSettings()
+        switch cacheMode {
+        case .persistent(let sizeInBytes):
+            settings.cacheSettings = PersistentCacheSettings(sizeBytes: NSNumber(value: sizeInBytes))
+        case .inMemory:
+            settings.cacheSettings = MemoryCacheSettings()
         }
+        db = Firestore.firestore()
+        db.settings = settings
+    }
     public func listenToCollection<T: FireStoreSnapshotListener>(listener:T){
         let prefiX="Path : \(listener.path)"
         let registration = db.collection(listener.path)
@@ -87,9 +86,11 @@ public class FirestoreManager{
         activeListeners.remove(listener)
         mLog(msg:"Total active listeners: \(activeListeners.count)")
     }
+    nonisolated
     private func mLog(_ funcName:String=#function,msg:String){
-        //        AH.mLog(tag: String(describing: type(of: self)), subTag: funcName, msg: msg)
-        print("[\(String(describing: type(of: self)))] [\(funcName)]: \(msg)")
+        Task{
+            await FWLogger.shared.info(tag: String(describing: type(of: self)), message: msg)
+        }
     }
     public struct TestUser: Identifiable, Codable {
         @DocumentID public var id: String? // Provided by FirebaseFirestoreSwift

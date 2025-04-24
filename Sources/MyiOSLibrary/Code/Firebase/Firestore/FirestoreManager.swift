@@ -13,7 +13,7 @@ public class FirestoreManager{
      init () {
         db=Firestore.firestore()
     }
-    func listenToCollection<T: FireStoreSnapshotListener>(listener:T){
+    public func listenToCollection<T: FireStoreSnapshotListener>(listener:T){
         let prefiX="Path : \(listener.path)"
         let registration = db.collection(listener.path)
             .addSnapshotListener { [weak self] snapshot, error in
@@ -39,7 +39,7 @@ public class FirestoreManager{
             }
         storeRegistration(registration, for: listener)
     }
-    func listenToDocument<T: FireStoreSnapshotListener>(listener: T) {
+    public func listenToDocument<T: FireStoreSnapshotListener>(listener: T) {
         let path = listener.path
         let prefiX = "Path: \(path)"
         let registration = db.document(path).addSnapshotListener {[weak self] snapshot, error in
@@ -73,7 +73,7 @@ public class FirestoreManager{
         activeListeners.add(listener)
         mLog(msg:"Total active listeners: \(activeListeners.count)")
     }
-    func stopListening<T: FireStoreSnapshotListener>(listener:T){
+    public func stopListening<T: FireStoreSnapshotListener>(listener:T){
         listener.listener?.remove()
         listener.listener = nil
         activeListeners.remove(listener)
@@ -81,10 +81,11 @@ public class FirestoreManager{
     }
     private func mLog(_ funcName:String=#function,msg:String){
 //        AH.mLog(tag: String(describing: type(of: self)), subTag: funcName, msg: msg)
+        print("[\(String(describing: type(of: self)))] [\(funcName)]: \(msg)")
     }
     
-    struct TestUser: Identifiable, Codable {
-        @DocumentID var id: String? // Provided by FirebaseFirestoreSwift
-        var name: String
+    public struct TestUser: Identifiable, Codable {
+         @DocumentID public var id: String? // Provided by FirebaseFirestoreSwift
+        public var name: String
     }
 }

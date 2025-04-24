@@ -7,7 +7,7 @@
 
 import FirebaseFirestore
 public actor FirebaseManager{
-    static let shared = FirebaseManager()
+    public static let shared = FirebaseManager()
     public lazy var firestore:FirestoreManager={
         return FirestoreManager()
     }()

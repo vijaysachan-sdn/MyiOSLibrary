@@ -39,6 +39,6 @@ public actor FWLogger{
 
     private func log(level: OSLogType, tag: String, message: String) {
         guard isLoggingEnabled else { return }
-        logger.log(level: level, "FW :: \(tag) :: \(message)")
+        logger.log(level: level, "\(Date().fw_formatted()) :: FW :: \(tag) :: \(message)")
     }
 }

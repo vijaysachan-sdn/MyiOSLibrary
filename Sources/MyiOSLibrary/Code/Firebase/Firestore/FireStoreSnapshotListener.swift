@@ -17,5 +17,5 @@ public protocol FireStoreCollectionSnapshotListener:FireStoreSnapshotListener{
 }
 public protocol FireStoreDocumentSnapshotListener:FireStoreSnapshotListener{
     /// Called on single document change
-    func onUpdate(data: Result<[Model]?, Error>, snapshot: DocumentSnapshot?)
+    func onUpdate(data: Result<Model?, Error>, snapshot: DocumentSnapshot?)
 }

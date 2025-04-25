@@ -22,6 +22,29 @@ public actor FirestoreManager:FWLoggerDelegate{
         db = Firestore.firestore()
         db.settings = settings
     }
+    
+    private func storeRegistration<T: FireStoreSnapshotListener>(
+        _ registration: ListenerRegistration,
+        for listener: T
+    ) {
+        listener.listener = registration
+        activeListeners.add(listener)
+        mLog(msg:"Total active listeners: \(activeListeners.count)")
+    }
+    public func stopListening<T: FireStoreSnapshotListener>(listener:T){
+        listener.listener?.remove()
+        listener.listener = nil
+        activeListeners.remove(listener)
+        mLog(msg:"Total active listeners: \(activeListeners.count)")
+    }
+    
+    struct TestUser: Identifiable, Codable {
+        @DocumentID public var id: String? // Provided by FirebaseFirestoreSwift
+        public var name: String
+    }
+}
+// MARK: Listeners
+extension FirestoreManager{
     public func listenToCollection<T: FireStoreCollectionSnapshotListener>(listener:T,limit:Int){
         let prefiX="Path : \(listener.path)"
         let registration = db.collection(listener.path).limit(to: limit)
@@ -54,6 +77,13 @@ public actor FirestoreManager:FWLoggerDelegate{
             }
         storeRegistration(registration, for: listener)
     }
+    /**
+     1. For some unknown reason, if the document is not present or exists, the code reaches the following decoding error:
+     
+     **"Decoding error: The data couldn’t be read because it is missing."**
+     
+     But it should be reaching to **"Document does not exist"**
+     */
     public func listenToDocument<T: FireStoreDocumentSnapshotListener>(listener: T) {
         let path = listener.path
         let prefiX = "Path: \(path)"
@@ -72,31 +102,12 @@ public actor FirestoreManager:FWLoggerDelegate{
             do {
                 let model = try document.data(as: T.Model.self)
                 mLog(msg: "\(prefiX) Successfully decoded document")
-                listener.onUpdate(data: .success([model]), snapshot: document)
+                listener.onUpdate(data: .success(model),snapshot: document)
             } catch {
                 mLog(msg: "\(prefiX) Decoding error: \(error.localizedDescription)")
                 listener.onUpdate(data: .failure(error), snapshot: document)
             }
         }
         storeRegistration(registration, for: listener)
-    }
-    private func storeRegistration<T: FireStoreSnapshotListener>(
-        _ registration: ListenerRegistration,
-        for listener: T
-    ) {
-        listener.listener = registration
-        activeListeners.add(listener)
-        mLog(msg:"Total active listeners: \(activeListeners.count)")
-    }
-    public func stopListening<T: FireStoreSnapshotListener>(listener:T){
-        listener.listener?.remove()
-        listener.listener = nil
-        activeListeners.remove(listener)
-        mLog(msg:"Total active listeners: \(activeListeners.count)")
-    }
-    
-    public struct TestUser: Identifiable, Codable {
-        @DocumentID public var id: String? // Provided by FirebaseFirestoreSwift
-        public var name: String
     }
 }

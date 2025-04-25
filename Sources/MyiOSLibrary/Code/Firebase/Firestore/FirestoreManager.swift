@@ -9,7 +9,7 @@ import FirebaseFirestore
 
 public actor FirestoreManager:FWLoggerDelegate{
     public let tag:String=String(describing: FirestoreManager.self)
-    let db:Firestore
+    public let db:Firestore
     private var activeListeners = NSHashTable<AnyObject>.weakObjects()
     init(cacheMode: FirestoreCacheMode = .persistent()) {
         let settings = FirestoreSettings()
@@ -42,12 +42,14 @@ public actor FirestoreManager:FWLoggerDelegate{
         @DocumentID public var id: String? // Provided by FirebaseFirestoreSwift
         public var name: String
     }
+    
 }
 // MARK: Listeners
 extension FirestoreManager{
-    public func listenToCollection<T: FireStoreCollectionSnapshotListener>(listener:T,limit:Int){
-        let prefiX="Path : \(listener.path)"
-        let registration = db.collection(listener.path).limit(to: limit)
+    public func listenToCollection<T: FireStoreCollectionSnapshotListener>(listener:T){
+        let requestData=listener.getRequestData(db: db)
+        let prefiX="Path : \(requestData.pathToCollection)"
+        let registration = requestData.query
             .addSnapshotListener { [weak self] snapshot, error in
                 guard let self=self else {return}
                 if let error=error{
@@ -85,7 +87,7 @@ extension FirestoreManager{
      But it should be reaching to **"Document does not exist"**
      */
     public func listenToDocument<T: FireStoreDocumentSnapshotListener>(listener: T) {
-        let path = listener.path
+        let path = listener.pathToDocument
         let prefiX = "Path: \(path)"
         let registration = db.document(path).addSnapshotListener {[weak self] snapshot, error in
             guard let self=self else {return}

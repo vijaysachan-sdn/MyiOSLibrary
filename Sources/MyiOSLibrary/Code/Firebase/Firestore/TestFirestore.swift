@@ -7,19 +7,29 @@
 import FirebaseFirestore
 // MARK: Listen Collection
 fileprivate class ListenCollection:FireStoreCollectionSnapshotListener{
-    func onUpdate(data: Result<[MyiOSLibrary.FirestoreManager.TestUser], any Error>, snapshots: [QueryDocumentSnapshot]?) {
-    }
     typealias Model = FirestoreManager.TestUser
     var listener: ListenerRegistration?
-    var path:String{
-        return "users"
+    func getRequestData(db:Firestore)->(pathToCollection: String, query: Query){
+        let collectionReference = db.collection("users")
+        let path=collectionReference.path
+        let query=collectionReference.limit(to: 10)
+        /*
+         Also you can use :
+         .order(by: "name")
+         .whereField("country", isEqualTo: "USA")
+         */
+        return(path,query)
     }
+    func onUpdate(data: Result<[MyiOSLibrary.FirestoreManager.TestUser], any Error>, snapshots: [QueryDocumentSnapshot]?) {
+    }
+    
+    
 }
 // MARK: Listen Document
 fileprivate class ListenDocument:FireStoreDocumentSnapshotListener{
     typealias Model = FirestoreManager.TestUser
     var listener: ListenerRegistration?
-    var path:String{
+    var pathToDocument:String{
         let validDocPath="users/Drdjc4nbngrgzsS5Zael"
         let invalidDocPath="users/123456"
         return invalidDocPath
@@ -27,6 +37,7 @@ fileprivate class ListenDocument:FireStoreDocumentSnapshotListener{
     func onUpdate(data: Result<FirestoreManager.TestUser?, any Error>, snapshot: DocumentSnapshot?) {
         
     }
+    
 }
 public class TestFirestore:@unchecked Sendable{
     public init(){ }
@@ -34,7 +45,7 @@ public class TestFirestore:@unchecked Sendable{
     fileprivate let documentListener:ListenDocument = ListenDocument()
     public func start(){
         Task{
-            await FWFirebaseManager.shared.firestore.listenToCollection(listener: collectionListener, limit: 10)
+            await FWFirebaseManager.shared.firestore.listenToCollection(listener: collectionListener)
             await FWFirebaseManager.shared.firestore.listenToDocument(listener: documentListener)
             
         }

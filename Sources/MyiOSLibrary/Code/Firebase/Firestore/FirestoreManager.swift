@@ -7,7 +7,8 @@
 import Foundation
 import FirebaseFirestore
 
-public actor FirestoreManager{
+public actor FirestoreManager:FWLoggerDelegate{
+    public let tag:String=String(describing: FirestoreManager.self)
     let db:Firestore
     private var activeListeners = NSHashTable<AnyObject>.weakObjects()
     init(cacheMode: FirestoreCacheMode = .persistent()) {
@@ -25,13 +26,14 @@ public actor FirestoreManager{
         let prefiX="Path : \(listener.path)"
         let registration = db.collection(listener.path).limit(to: limit)
             .addSnapshotListener { [weak self] snapshot, error in
+                guard let self=self else {return}
                 if let error=error{
-                    self?.mLog(msg:"\(prefiX) Error : \(error.localizedDescription)")
+                    mLog(msg:"\(prefiX) Error : \(error.localizedDescription)")
                     listener.onUpdate(data: .failure(error), snapshots: nil)
                     return
                 }
                 guard let documents = snapshot?.documents else {
-                    self?.mLog(msg: "\(prefiX) No documents found")
+                    mLog(msg: "\(prefiX) No documents found")
                     listener.onUpdate(data: .success([]), snapshots: [])
                     return
                 }
@@ -44,11 +46,11 @@ public actor FirestoreManager{
                         decoded.append(model)
                         rawSnapshots.append(doc)
                     } catch {
-                        self?.mLog(msg: "\(prefiX) Skipping invalid document: \(doc.documentID) - \(error.localizedDescription)")
+                        mLog(msg: "\(prefiX) Skipping invalid document: \(doc.documentID) - \(error.localizedDescription)")
                     }
                 }
                 listener.onUpdate(data: .success(decoded), snapshots: rawSnapshots)
-                self?.mLog(msg: "\(prefiX) Total received docs = \(documents.count)  : Total valid docs: \(decoded.count)")
+                mLog(msg: "\(prefiX) Total received docs = \(documents.count)  : Total valid docs: \(decoded.count)")
             }
         storeRegistration(registration, for: listener)
     }
@@ -56,22 +58,23 @@ public actor FirestoreManager{
         let path = listener.path
         let prefiX = "Path: \(path)"
         let registration = db.document(path).addSnapshotListener {[weak self] snapshot, error in
+            guard let self=self else {return}
             if let error = error {
-                self?.mLog(msg:"\(prefiX) Error: \(error.localizedDescription)")
+                mLog(msg:"\(prefiX) Error: \(error.localizedDescription)")
                 listener.onUpdate(data: .failure(error), snapshot: snapshot)
                 return
             }
             guard let document = snapshot else{
-                self?.mLog(msg:"\(prefiX) Document does not exist")
+                mLog(msg:"\(prefiX) Document does not exist")
                 listener.onUpdate(data: .success(nil), snapshot: nil)
                 return
             }
             do {
                 let model = try document.data(as: T.Model.self)
-                self?.mLog(msg: "\(prefiX) Successfully decoded document")
+                mLog(msg: "\(prefiX) Successfully decoded document")
                 listener.onUpdate(data: .success([model]), snapshot: document)
             } catch {
-                self?.mLog(msg: "\(prefiX) Decoding error: \(error.localizedDescription)")
+                mLog(msg: "\(prefiX) Decoding error: \(error.localizedDescription)")
                 listener.onUpdate(data: .failure(error), snapshot: document)
             }
         }
@@ -91,12 +94,7 @@ public actor FirestoreManager{
         activeListeners.remove(listener)
         mLog(msg:"Total active listeners: \(activeListeners.count)")
     }
-    nonisolated
-    private func mLog(_ funcName:String=#function,msg:String){
-        Task{
-            await FWLogger.shared.info(tag: String(describing: type(of: self)), message: msg)
-        }
-    }
+    
     public struct TestUser: Identifiable, Codable {
         @DocumentID public var id: String? // Provided by FirebaseFirestoreSwift
         public var name: String

@@ -19,8 +19,8 @@ public actor FirestoreManager:FWLoggerDelegate{
      The comparison is based on reference equality (the same object).
      **The behavior is similar to a Set, which ensures uniqueness**
      */
-    private var activeListeners = NSHashTable<AnyObject>.weakObjects()
-    init(cacheMode: FirestoreCacheMode = .persistent()) {
+    private var activeUniqueListeners = NSHashTable<AnyObject>.weakObjects()
+    init(cacheMode: FirestoreCacheMode = .persistent()){
         let settings = FirestoreSettings()
         switch cacheMode {
         case .persistent(let sizeInBytes):
@@ -35,16 +35,20 @@ public actor FirestoreManager:FWLoggerDelegate{
         _ registration: ListenerRegistration,
         for listener: T
     ){
-        stopListening(listener: listener) // First stop then add
+        if activeUniqueListeners.contains(listener){
+            mLog(msg:"❌ Listener for \(path)) already registered..............Stopping ")
+            stopListening(listener: listener)
+            mLog(msg:"..................................................................Stopped ❌")
+        }
         listener.listener = registration
-        activeListeners.add(listener)
-        mLog(msg:"\(path) : Total active listeners: \(activeListeners.count)")
+        activeUniqueListeners.add(listener)
+        mLog(msg:"\(path) : Total active listeners: \(activeUniqueListeners.count)")
     }
     public func stopListening<T: FireStoreSnapshotListener>(listener:T){
         listener.listener?.remove()
         listener.listener = nil
-        activeListeners.remove(listener)
-        mLog(msg:"Total active listeners: \(activeListeners.count)")
+        activeUniqueListeners.remove(listener)
+        mLog(msg:"Total active listeners: \(activeUniqueListeners.count)")
     }
     
     struct TestUser: Identifiable, Codable {

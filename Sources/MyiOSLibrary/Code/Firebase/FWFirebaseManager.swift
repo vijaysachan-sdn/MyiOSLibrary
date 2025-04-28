@@ -5,12 +5,20 @@
 //  Created by Vijay Sachan on 4/24/25.
 //
 import FirebaseFirestore
-public actor FWFirebaseManager{
+public actor FWFirebaseManager:FWLoggerDelegate{
+    nonisolated
+    public var tag: String{
+        String(describing: FWFirebaseManager.self)
+    }
+    
     public static let shared = FWFirebaseManager()
     private init(){}
     // MARK: Firestore
     private var cacheMode: FirestoreCacheMode = .persistent() // default
+    private var countFirestore=0
     public lazy var firestore:FirestoreManager={
+        countFirestore+=1
+        mLog(msg: "Initializing FirestoreManager \(countFirestore) times")
         return FirestoreManager(cacheMode: cacheMode)
     }()
     public func configure(cacheMode: FirestoreCacheMode) {

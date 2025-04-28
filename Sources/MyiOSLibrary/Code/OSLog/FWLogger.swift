@@ -6,7 +6,8 @@
 //
 import Foundation
 import OSLog
-public actor FWLogger{
+
+public class FWLogger:@unchecked Sendable{
     // Singleton pattern for shared instance
     public static let shared = FWLogger()
 
@@ -39,6 +40,18 @@ public actor FWLogger{
 
     private func log(level: OSLogType, tag: String, message: String) {
         guard isLoggingEnabled else { return }
-        logger.log(level: level, "\(Date().fw_formatted()) :: FW :: \(tag) :: \(message)")
+        logger.log(level: level, "\(self.getCurrentDateTimeWithSeconds()) :: FW :: \(tag) :: \(message)")
     }
+    private func getCurrentDateTimeWithSeconds() -> String {
+        // Get the current date and time
+        let currentDate = Date()
+
+        // Create a DateFormatter for the full date and time
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"  // Format to show date and time (year-month-day hours:minutes:seconds)
+
+        // Format the current date and return it as a string
+        return dateFormatter.string(from: currentDate)
+    }
+
 }

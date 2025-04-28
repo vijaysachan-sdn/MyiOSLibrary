@@ -14,7 +14,6 @@ public protocol FireStoreCollectionSnapshotListener:FireStoreSnapshotListener{
     func getRequestData(db:Firestore)->(pathToCollection: String, query: Query)
     /// Called on collection changes
     func onUpdate(data: Result<[Model], Error>, snapshots: [QueryDocumentSnapshot]?)
-    
 }
 public protocol FireStoreDocumentSnapshotListener:FireStoreSnapshotListener{
     var pathToDocument: String { get }

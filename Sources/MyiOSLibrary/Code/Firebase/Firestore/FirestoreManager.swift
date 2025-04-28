@@ -6,10 +6,19 @@
 //
 import Foundation
 import FirebaseFirestore
-
+/**
+ Remember
+ In "actor" if multiple thread calling method1(), only 1 thread will be granted access but other thread can access method2() at same time
+ */
 public actor FirestoreManager:FWLoggerDelegate{
     public let tag:String=String(describing: FirestoreManager.self)
     public let db:Firestore
+    /**
+     "In **NSHashTable<AnyObject>**, if two variables are referring to the same object, it will only add the object once. It behaves similarly to a **Set** in this regard, ensuring that duplicates are not added."
+     This version clarifies that:
+     The comparison is based on reference equality (the same object).
+     **The behavior is similar to a Set, which ensures uniqueness**
+     */
     private var activeListeners = NSHashTable<AnyObject>.weakObjects()
     init(cacheMode: FirestoreCacheMode = .persistent()) {
         let settings = FirestoreSettings()
@@ -22,14 +31,14 @@ public actor FirestoreManager:FWLoggerDelegate{
         db = Firestore.firestore()
         db.settings = settings
     }
-    
-    private func storeRegistration<T: FireStoreSnapshotListener>(
+    private func storeRegistration<T: FireStoreSnapshotListener>(_ path:String,
         _ registration: ListenerRegistration,
         for listener: T
-    ) {
+    ){
+        stopListening(listener: listener) // First stop then add
         listener.listener = registration
         activeListeners.add(listener)
-        mLog(msg:"Total active listeners: \(activeListeners.count)")
+        mLog(msg:"\(path) : Total active listeners: \(activeListeners.count)")
     }
     public func stopListening<T: FireStoreSnapshotListener>(listener:T){
         listener.listener?.remove()
@@ -48,7 +57,7 @@ public actor FirestoreManager:FWLoggerDelegate{
 extension FirestoreManager{
     public func listenToCollection<T: FireStoreCollectionSnapshotListener>(listener:T){
         let requestData=listener.getRequestData(db: db)
-        let prefiX="Path : \(requestData.pathToCollection)"
+        let prefiX="Path : \(requestData.pathToCollection), "
         let registration = requestData.query
             .addSnapshotListener { [weak self] snapshot, error in
                 guard let self=self else {return}
@@ -77,7 +86,7 @@ extension FirestoreManager{
                 listener.onUpdate(data: .success(decoded), snapshots: rawSnapshots)
                 mLog(msg: "\(prefiX) Total received docs = \(documents.count)  : Total valid docs: \(decoded.count)")
             }
-        storeRegistration(registration, for: listener)
+        storeRegistration(prefiX,registration, for: listener)
     }
     /**
      1. For some unknown reason, if the document is not present or exists, the code reaches the following decoding error:
@@ -110,6 +119,6 @@ extension FirestoreManager{
                 listener.onUpdate(data: .failure(error), snapshot: document)
             }
         }
-        storeRegistration(registration, for: listener)
+        storeRegistration(prefiX,registration, for: listener)
     }
 }

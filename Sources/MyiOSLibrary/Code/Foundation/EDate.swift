@@ -65,27 +65,25 @@ extension Date:FWLoggerDelegate{
     /// - Time zone name/format
     
     private func testDateTime(_ date:Date){
-//        mLog(msg: date.formatted(.dateTime))// 4/29/2025, 12:20 PM
-//        mLog(msg: date.formatted(.dateTime.year().month().day().weekday().hour().minute().second().timeZone().locale(.current)))// Tue, Apr 29, 2025 at 12:20:8 PM GMT+5:30
-//        // Year
-//        mLog(msg: date.formatted(.dateTime.year()))// 2025
-//        mLog(msg: date.formatted(.dateTime.year(.defaultDigits)))// 2025
-//        mLog(msg: date.formatted(.dateTime.year(.twoDigits)))// 25
-//        mLog(msg: date.formatted(.dateTime.year(.padded(6))))// 002025
-//        // Month
-//        mLog(msg: date.formatted(.dateTime.month())) // Apr
-//        mLog(msg: date.formatted(.dateTime.month(.abbreviated))) // Apr
-//        mLog(msg: date.formatted(.dateTime.month(.narrow))) // A
-//        mLog(msg: date.formatted(.dateTime.month(.defaultDigits))) // 4
-//        mLog(msg: date.formatted(.dateTime.month(.twoDigits))) // 04
-//        mLog(msg: date.formatted(.dateTime.month(.wide))) // April
+        mLog(msg: date.formatted(.dateTime))// 4/29/2025, 12:20 PM
+        mLog(msg: date.formatted(.dateTime.year().month().day().weekday().hour().minute().second().timeZone().locale(.current)))// Tue, Apr 29, 2025 at 12:20:8 PM GMT+5:30
+        // Year
+        mLog(msg: date.formatted(.dateTime.year()))// 2025
+        mLog(msg: date.formatted(.dateTime.year(.defaultDigits)))// 2025
+        mLog(msg: date.formatted(.dateTime.year(.twoDigits)))// 25
+        mLog(msg: date.formatted(.dateTime.year(.padded(6))))// 002025
+        // Month
+        mLog(msg: date.formatted(.dateTime.month())) // Apr
+        mLog(msg: date.formatted(.dateTime.month(.abbreviated))) // Apr
+        mLog(msg: date.formatted(.dateTime.month(.narrow))) // A
+        mLog(msg: date.formatted(.dateTime.month(.defaultDigits))) // 4
+        mLog(msg: date.formatted(.dateTime.month(.twoDigits))) // 04
+        mLog(msg: date.formatted(.dateTime.month(.wide))) // April
         // Day
-        mLog(msg: date.formatted(Date.FormatStyle().day(.defaultDigits))) // 9
-        mLog(msg: date.formatted(Date.FormatStyle().day(.ordinalOfDayInMonth))) // 2 (second Tuesday of the month)
-        mLog(msg: date.formatted(Date.FormatStyle().day(.twoDigits))) // 09
-        mLog(msg: date.formatted(Date.FormatStyle().day())) // 9
-
-        
+        mLog(msg: date.formatted(Date.FormatStyle().day(.defaultDigits))) // 29
+        mLog(msg: date.formatted(Date.FormatStyle().day(.ordinalOfDayInMonth))) // 5 (It is the 5th Tuesday of the month)
+        mLog(msg: date.formatted(Date.FormatStyle().day(.twoDigits))) // 29 // 09(If date was 9)
+        mLog(msg: date.formatted(Date.FormatStyle().day())) // 29 // 9(If date was 9)
     }
     private func testRelative(_ date:Date){
         

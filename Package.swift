@@ -23,7 +23,8 @@ let package = Package(
         .target(
             name: "MyiOSLibrary",
             dependencies: [
-                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk")
+                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseDatabase", package: "firebase-ios-sdk")
                         ]
         ),
         .testTarget(

@@ -22,5 +22,4 @@ public class RealtimeDatabaseManager:@unchecked Sendable,FWLoggerDelegate{
     init (){
         db=Database.database()
     }
-    
 }

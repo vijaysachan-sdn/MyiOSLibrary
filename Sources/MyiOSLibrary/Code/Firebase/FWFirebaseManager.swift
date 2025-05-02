@@ -23,6 +23,9 @@ public actor FWFirebaseManager:FWLoggerDelegate{
     public lazy var realtimeDatabase:RealtimeDatabaseManager={
         return RealtimeDatabaseManager()
     }()
+    public lazy var firebaseAuthManager:FirebaseAuthManager={
+        return FirebaseAuthManager()
+    }()
     public func configure(cacheMode: FirestoreCacheMode) {
         self.cacheMode = cacheMode
     }

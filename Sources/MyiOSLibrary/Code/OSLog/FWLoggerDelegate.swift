@@ -6,7 +6,7 @@
 //
 
 public protocol FWLoggerDelegate{
-    var tag:String {get}
+    var tag:String { get }
     func mLog(_ funcName:String,msg:String)
 }
 extension FWLoggerDelegate{

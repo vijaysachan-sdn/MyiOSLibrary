@@ -32,13 +32,12 @@ public actor FirestoreManager:FWLoggerDelegate{
         db.settings = settings
     }
     private func storeRegistration<T: FireStoreSnapshotListener>(_ path:String,
-        _ registration: ListenerRegistration,
-        for listener: T
+                                                                 _ registration: ListenerRegistration,
+                                                                 for listener: T
     ){
         if activeUniqueListeners.contains(listener){
-            mLog(msg:"❌ Listener for \(path)) already registered..............Stopping ")
+            mLog(msg:"❌ Listener for \(path)) already registered..............stopping ❌")
             stopListening(listener: listener)
-            mLog(msg:"..................................................................Stopped ❌")
         }
         listener.listener = registration
         activeUniqueListeners.add(listener)

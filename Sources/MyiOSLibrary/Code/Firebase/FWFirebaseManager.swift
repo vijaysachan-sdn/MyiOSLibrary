@@ -10,7 +10,6 @@ public actor FWFirebaseManager:FWLoggerDelegate{
     public var tag: String{
         String(describing: FWFirebaseManager.self)
     }
-    
     public static let shared = FWFirebaseManager()
     private init(){}
     // MARK: Firestore
@@ -20,6 +19,9 @@ public actor FWFirebaseManager:FWLoggerDelegate{
         countFirestore+=1
         mLog(msg: "Initializing FirestoreManager \(countFirestore) times")
         return FirestoreManager(cacheMode: cacheMode)
+    }()
+    public lazy var realtimeDatabase:RealtimeDatabaseManager={
+        return RealtimeDatabaseManager()
     }()
     public func configure(cacheMode: FirestoreCacheMode) {
         self.cacheMode = cacheMode

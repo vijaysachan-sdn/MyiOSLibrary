@@ -6,7 +6,11 @@
 //
 import Foundation
 import FirebaseDatabase
-public actor RealtimeDatabaseManager:FWLoggerDelegate{
+/**
+  Using class because, let db=Database.database()
+ db is not using async awat in FirebaseDatabase,If in future Google will implement it,then we cann replace class with actor
+ */
+public class RealtimeDatabaseManager:@unchecked Sendable,FWLoggerDelegate{
     protocol Functionality:AnyObject{
         init(manager:RealtimeDatabaseManager)
     }
@@ -16,7 +20,7 @@ public actor RealtimeDatabaseManager:FWLoggerDelegate{
     }()
     let db:Database
     init (){
-        db=Database.database()        
+        db=Database.database()
     }
     
 }

@@ -4,8 +4,8 @@
 //
 //  Created by Vijay Sachan on 5/2/25.
 //
-@preconcurrency import FirebaseDatabase
-public actor RealtimeDatabaseConnectionState:RealtimeDatabaseManager.Functionality,FWLoggerDelegate{
+import FirebaseDatabase
+public class RealtimeDatabaseConnectionState:RealtimeDatabaseManager.Functionality,FWLoggerDelegate{
     
     public let tag: String=String(describing: RealtimeDatabaseConnectionState.self)
     
@@ -17,13 +17,11 @@ public actor RealtimeDatabaseConnectionState:RealtimeDatabaseManager.Functionali
     private var isConnected:Bool=false
     private var activeConnectionStateListeners = NSHashTable<AnyObject>.weakObjects()
     
-    init(manager: RealtimeDatabaseManager){
+    required init(manager: RealtimeDatabaseManager){
         self.manager = manager
-        Task{
-            await startListeningForConnectionState(manager.db)
-        }
+        startListeningForConnectionState(manager.db)
     }
-    private func startListeningForConnectionState(_ db:Database) {
+     func startListeningForConnectionState(_ db:Database) {
         connectedRef = db.reference(withPath: ".info/connected")
         connectedRef.observe(.value, with: { snapshot in
             var isConnected=false

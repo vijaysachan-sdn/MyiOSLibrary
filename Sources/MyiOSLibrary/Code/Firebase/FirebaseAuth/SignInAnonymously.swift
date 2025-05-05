@@ -10,7 +10,7 @@ class SignInAnonymously:FWLoggerDelegate{
     let tag:String=String(describing: SignInAnonymously.self)    
      func signIn(closure: @escaping (Result<FirebaseAuthInfo, Error>) -> Void){
         Auth.auth().signInAnonymously { authResult, error in
-            guard let user = authResult?.user else {
+            guard let user = authResult?.user else{
                 closure(.failure(error ?? NSError(domain: "", code: 0, userInfo: nil)))
                 self.mLog(msg: "Auth failed with error: \(String(describing: error))")
                 return

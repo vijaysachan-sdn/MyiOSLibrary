@@ -12,6 +12,11 @@ public actor FirebaseAuthManager:FWLoggerDelegate {
     }
     public let tag: String=String(describing: FirebaseAuthManager.self)
     
+    public var isUserLoggedIn:Bool{
+        return Auth.auth().currentUser != nil
+    }
+    
+    
     public func  handleSignIn(signInType:SignInType,closure: @escaping (Result<FirebaseAuthInfo, Error>) -> Void){
         switch signInType{
         case .anonymous:
@@ -20,7 +25,7 @@ public actor FirebaseAuthManager:FWLoggerDelegate {
         //        default:
         //            closure(.failure(FWError(message: "Unsupported SignInType")))
     }
-    public func checkIfUserIsLoggedIn()->FirebaseAuthInfo?{
+    public func getFirebaseAuthInfo()->FirebaseAuthInfo?{
         if let user = Auth.auth().currentUser{
             mLog(msg:"User is logged in")
             return FirebaseAuthInfo(user: user)
@@ -29,4 +34,5 @@ public actor FirebaseAuthManager:FWLoggerDelegate {
         }
         return nil
     }
+    
 }

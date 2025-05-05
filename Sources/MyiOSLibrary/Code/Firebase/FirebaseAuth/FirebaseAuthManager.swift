@@ -4,28 +4,26 @@
 //
 //  Created by Vijay Sachan on 5/2/25.
 //
-
 import Foundation
 import FirebaseAuth
 public actor FirebaseAuthManager:FWLoggerDelegate {
-    public let tag: String=String(describing: FirebaseAuthManager.self)
-    public func signInAnonymously(closure: @escaping (Result<User, Error>) -> Void){
-        Auth.auth().signInAnonymously { authResult, error in
-            guard let user = authResult?.user else {
-                closure(.failure(error ?? NSError(domain: "", code: 0, userInfo: nil)))
-                self.mLog(msg: "Auth failed with error: \(String(describing: error))")
-                return
-            }
-            let isAnonymous = user.isAnonymous  // true
-            let uid = user.uid
-            self.mLog(msg: "Auth successful for user: isAnonymous: \(isAnonymous), uid:\(user.uid)")
-            closure(.success(user))
-        }
+    public enum SignInType{
+        case anonymous
     }
-    public func checkIfUserIsLoggedIn()->User?{
-        if let user = Auth.auth().currentUser {
+    public let tag: String=String(describing: FirebaseAuthManager.self)
+    
+    public func  handleSignIn(signInType:SignInType,closure: @escaping (Result<FirebaseAuthInfo, Error>) -> Void){
+        switch signInType{
+        case .anonymous:
+            SignInAnonymously().signIn(closure: closure)
+        }
+        //        default:
+        //            closure(.failure(FWError(message: "Unsupported SignInType")))
+    }
+    public func checkIfUserIsLoggedIn()->FirebaseAuthInfo?{
+        if let user = Auth.auth().currentUser{
             mLog(msg:"User is logged in")
-            return user
+            return FirebaseAuthInfo(user: user)
         } else {
             mLog(msg:"No user is logged in")
         }

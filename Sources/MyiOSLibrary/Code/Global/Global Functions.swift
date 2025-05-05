@@ -9,3 +9,4 @@ public func logThreadType(tag:String){
     let threadName = Thread.isMainThread ? "Main Thread":"Background Thread"
     print("logThreadType : [\(tag)] : \(threadName)")
 }
+

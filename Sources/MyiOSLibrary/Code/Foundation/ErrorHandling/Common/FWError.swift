@@ -4,7 +4,6 @@
 //
 //  Created by Vijay Sachan on 5/5/25.
 //
-
 import Foundation
 struct FWError: LocalizedError {
     let message: String
@@ -12,4 +11,3 @@ struct FWError: LocalizedError {
         return message
     }
 }
-

@@ -37,7 +37,6 @@ fileprivate class ListenDocument:FireStoreDocumentSnapshotListener{
     func onUpdate(data: Result<FirestoreManager.TestUser?, any Error>, snapshot: DocumentSnapshot?) {
         
     }
-    
 }
 public class TestFirestore:@unchecked Sendable{
     public init(){ }

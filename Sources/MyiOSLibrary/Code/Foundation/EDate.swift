@@ -136,9 +136,7 @@ extension Date:FWLoggerDelegate{
         // Japanese (Year first, with kanji characters)
         mLog(msg: date.formatted(.dateTime.locale(Locale(identifier: "ja_JP"))))    // 2025/4/29 12:20
         // Chinese (Simplified, China region)
-        mLog(msg: date.formatted(.dateTime.locale(Locale(identifier: "zh_CN"))))    // 2025/4/29 12:20
-        
-        
+        mLog(msg: date.formatted(.dateTime.locale(Locale(identifier: "zh_CN"))))    // 2025/4/29 12:20        
     }
     private func testRelative(_ date:Date){
         

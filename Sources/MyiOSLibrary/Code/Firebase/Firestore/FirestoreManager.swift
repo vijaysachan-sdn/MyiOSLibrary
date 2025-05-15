@@ -4,12 +4,10 @@
 //
 //  Created by Vijay Sachan on 4/23/25.
 //
+
 import Foundation
 import FirebaseFirestore
-/**
- Remember
- In "actor" if multiple thread calling method1(), only 1 thread will be granted access but other thread can access method2() at same time
- */
+
 public actor FirestoreManager:FWLoggerDelegate{
     public let tag:String=String(describing: FirestoreManager.self)
     public let db:Firestore
@@ -49,7 +47,6 @@ public actor FirestoreManager:FWLoggerDelegate{
         activeUniqueListeners.remove(listener)
         mLog(msg:"Total active listeners: \(activeUniqueListeners.count)")
     }
-    
     struct TestUser: Identifiable, Codable {
         @DocumentID public var id: String? // Provided by FirebaseFirestoreSwift
         public var name: String
@@ -103,7 +100,7 @@ extension FirestoreManager{
         let prefiX = "Path: \(path)"
         let registration = db.document(path).addSnapshotListener {[weak self] snapshot, error in
             guard let self=self else {return}
-            if let error = error {
+            if let error = error{
                 mLog(msg:"\(prefiX) Error: \(error.localizedDescription)")
                 listener.onUpdate(data: .failure(error), snapshot: snapshot)
                 return

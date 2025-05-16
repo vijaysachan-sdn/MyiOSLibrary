@@ -4,10 +4,8 @@
 //
 //  Created by Vijay Sachan on 4/23/25.
 //
-
 import Foundation
 import FirebaseFirestore
-
 public actor FirestoreManager:FWLoggerDelegate{
     public let tag:String=String(describing: FirestoreManager.self)
     public let db:Firestore

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController id="Y6W-OH-hqX" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-176" y="-27"/>
+        </scene>
+        <!--Button-->
+        <scene sceneID="51c-q9-9pE">
+            <objects>
+                <viewController storyboardIdentifier="VCUIButton" useStoryboardIdentifierAsRestorationIdentifier="YES" id="e9K-jK-EsY" customClass="VCUIButton" customModule="MyiOSLibrary" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="H4Z-OT-lE6">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aF3-iC-WEd">
+                                <rect key="frame" x="15" y="118" width="363" height="651"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5rJ-yu-e1h">
+                                        <rect key="frame" x="15" y="15.000000000000007" width="333" height="125.66666666666669"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="82O-ox-Azc">
+                                                <rect key="frame" x="0.0" y="0.0" width="333" height="125.66666666666667"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UIButton with an image that fills the button while preserving the aspect ratio" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cXO-8j-goc">
+                                                        <rect key="frame" x="2.3333333333333428" y="0.0" width="328.66666666666663" height="40.666666666666664"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kxG-m9-MqS">
+                                                        <rect key="frame" x="141.66666666666666" y="50.666666666666657" width="50" height="75"/>
+                                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="75" id="0ML-vG-CyK"/>
+                                                            <constraint firstAttribute="width" constant="50" id="4OO-RI-5Id"/>
+                                                        </constraints>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal">
+                                                            <imageReference key="image" image="fw_circle" symbolScale="small"/>
+                                                        </state>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" secondItem="82O-ox-Azc" secondAttribute="height" id="3PV-Ml-OLv"/>
+                                            <constraint firstAttribute="trailing" secondItem="82O-ox-Azc" secondAttribute="trailing" id="6dK-Ln-PWd"/>
+                                            <constraint firstItem="82O-ox-Azc" firstAttribute="top" secondItem="5rJ-yu-e1h" secondAttribute="top" id="IvT-8I-Dmg"/>
+                                            <constraint firstItem="82O-ox-Azc" firstAttribute="leading" secondItem="5rJ-yu-e1h" secondAttribute="leading" id="rJP-FP-NC8"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="5rJ-yu-e1h" firstAttribute="bottom" secondItem="cb7-dU-b7o" secondAttribute="bottom" constant="15" id="0rS-9I-igC"/>
+                                    <constraint firstItem="5rJ-yu-e1h" firstAttribute="leading" secondItem="cb7-dU-b7o" secondAttribute="leading" constant="15" id="Rzc-0k-fLo"/>
+                                    <constraint firstItem="5rJ-yu-e1h" firstAttribute="top" secondItem="cb7-dU-b7o" secondAttribute="top" constant="15" id="YW2-nG-w5j"/>
+                                    <constraint firstItem="5rJ-yu-e1h" firstAttribute="trailing" secondItem="cb7-dU-b7o" secondAttribute="trailing" constant="15" id="dkV-RH-b7n"/>
+                                    <constraint firstItem="J7t-WS-LGK" firstAttribute="width" secondItem="5rJ-yu-e1h" secondAttribute="width" constant="30" id="gbY-Wk-yve"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="cb7-dU-b7o"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="J7t-WS-LGK"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Hct-tZ-g4d"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Hct-tZ-g4d" firstAttribute="bottom" secondItem="aF3-iC-WEd" secondAttribute="bottom" constant="15" id="E7h-hr-gus"/>
+                            <constraint firstItem="Hct-tZ-g4d" firstAttribute="trailing" secondItem="aF3-iC-WEd" secondAttribute="trailing" constant="15" id="NhX-xl-qwR"/>
+                            <constraint firstItem="aF3-iC-WEd" firstAttribute="leading" secondItem="Hct-tZ-g4d" secondAttribute="leading" constant="15" id="fzQ-TJ-0C7"/>
+                            <constraint firstItem="aF3-iC-WEd" firstAttribute="top" secondItem="Hct-tZ-g4d" secondAttribute="top" id="j7F-Iq-VRJ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="button1" destination="kxG-m9-MqS" id="lVE-BM-iAe"/>
+                        <outlet property="stackView" destination="82O-ox-Azc" id="daV-Nv-Hil"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1VF-Wm-PS5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-781" y="-704"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="fw_circle" width="13" height="13"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

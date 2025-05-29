@@ -1,5 +1,5 @@
 {
-  "originHash" : "91bfe6f3efc2da4b8727f0b9641fcd0bb2eebf67c15315ac216c5be4702816fa",
+  "originHash" : "de3f010d0d98d406a132eb1907607bfdfeb5ffafa8ec897013e6f7bdcdb2550c",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -20,30 +20,12 @@
       }
     },
     {
-      "identity" : "appauth-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/openid/AppAuth-iOS.git",
-      "state" : {
-        "revision" : "2781038865a80e2c425a1da12cc1327bcd56501f",
-        "version" : "1.7.6"
-      }
-    },
-    {
       "identity" : "firebase-ios-sdk",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
       "state" : {
         "revision" : "fbd463894af94d90eb4d6a4e54080459a8179519",
         "version" : "11.12.0"
-      }
-    },
-    {
-      "identity" : "google-api-objectivec-client-for-rest",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/google-api-objectivec-client-for-rest",
-      "state" : {
-        "revision" : "db42ac252970b9d354e0ede82ab29012d4d5a7ae",
-        "version" : "4.2.0"
       }
     },
     {
@@ -62,15 +44,6 @@
       "state" : {
         "revision" : "617af071af9aa1d6a091d59a202910ac482128f9",
         "version" : "10.1.0"
-      }
-    },
-    {
-      "identity" : "googlesignin-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/GoogleSignIn-iOS",
-      "state" : {
-        "revision" : "7932d33686c1dc4d7df7a919aae47361d1cdfda4",
-        "version" : "7.0.0"
       }
     },
     {
@@ -101,39 +74,12 @@
       }
     },
     {
-      "identity" : "gtmappauth",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/GTMAppAuth.git",
-      "state" : {
-        "revision" : "cee3c709307912d040bd1e06ca919875a92339c6",
-        "version" : "2.0.0"
-      }
-    },
-    {
       "identity" : "interop-ios-for-google-sdks",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/interop-ios-for-google-sdks.git",
       "state" : {
         "revision" : "040d087ac2267d2ddd4cca36c757d1c6a05fdbfe",
         "version" : "101.0.0"
-      }
-    },
-    {
-      "identity" : "ios-places-sdk",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/googlemaps/ios-places-sdk",
-      "state" : {
-        "revision" : "2a9c7305a0e5f83b9acdccfc74eb545ffeb476c3",
-        "version" : "8.5.0"
-      }
-    },
-    {
-      "identity" : "iosdropdown",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/jriosdev/iOSDropDown",
-      "state" : {
-        "revision" : "945c4f1945ed37a31055e812a5ee11a3d06e88ab",
-        "version" : "0.4.0"
       }
     },
     {

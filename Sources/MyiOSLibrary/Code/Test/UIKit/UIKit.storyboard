@@ -9,21 +9,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="s0d-6b-0kx">
-            <objects>
-                <viewController id="Y6W-OH-hqX" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-176" y="-27"/>
-        </scene>
         <!--Button-->
         <scene sceneID="51c-q9-9pE">
             <objects>
@@ -36,10 +21,10 @@
                                 <rect key="frame" x="15" y="118" width="363" height="651"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5rJ-yu-e1h">
-                                        <rect key="frame" x="15" y="15.000000000000007" width="333" height="125.66666666666669"/>
+                                        <rect key="frame" x="15" y="15" width="333" height="304.66666666666669"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="82O-ox-Azc">
-                                                <rect key="frame" x="0.0" y="0.0" width="333" height="125.66666666666667"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="333" height="304.66666666666669"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UIButton with an image that fills the button while preserving the aspect ratio" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cXO-8j-goc">
                                                         <rect key="frame" x="2.3333333333333428" y="0.0" width="328.66666666666663" height="40.666666666666664"/>
@@ -58,6 +43,27 @@
                                                         <state key="normal">
                                                             <imageReference key="image" image="fw_circle" symbolScale="small"/>
                                                         </state>
+                                                    </button>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type:System, Style:Plain,Placement:Top,Symbol Scale:Large,Padding:15" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VbI-dW-73J" userLabel="UIButton witfgdsff">
+                                                        <rect key="frame" x="35.333333333333343" y="135.66666666666669" width="262.33333333333326" height="61"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wKX-hR-u9j">
+                                                        <rect key="frame" x="134.33333333333334" y="206.66666666666669" width="64.666666666666657" height="98"/>
+                                                        <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Button">
+                                                            <imageReference key="image" image="pencil" catalog="system" symbolScale="small"/>
+                                                        </state>
+                                                        <buttonConfiguration key="configuration" style="plain" imagePlacement="top" title="Title" subtitle="Subtitle" imagePadding="15" titlePadding="8" cornerStyle="large" titleAlignment="center">
+                                                            <imageReference key="image" image="star.fill" catalog="system" symbolScale="medium" variableValue="0.0"/>
+                                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20" scale="large" weight="ultraLight"/>
+                                                            <fontDescription key="titleFontDescription" type="system" pointSize="20"/>
+                                                            <fontDescription key="subtitleFontDescription" type="system" pointSize="11"/>
+                                                            <color key="baseForegroundColor" systemColor="systemGreenColor"/>
+                                                        </buttonConfiguration>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -103,11 +109,19 @@
     </scenes>
     <resources>
         <image name="fw_circle" width="13" height="13"/>
+        <image name="pencil" catalog="system" width="128" height="113"/>
+        <image name="star.fill" catalog="system" width="128" height="116"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

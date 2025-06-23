@@ -22,8 +22,6 @@ fileprivate class ListenCollection:FireStoreCollectionSnapshotListener{
     }
     func onUpdate(data: Result<[MyiOSLibrary.FirestoreManager.TestUser], any Error>, snapshots: [QueryDocumentSnapshot]?) {
     }
-    
-    
 }
 // MARK: Listen Document
 fileprivate class ListenDocument:FireStoreDocumentSnapshotListener{
